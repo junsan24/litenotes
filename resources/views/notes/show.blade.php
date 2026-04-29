@@ -23,6 +23,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-4">
                 <h1 class="font-bold text-lg">{{ $note->title }}</h1>
                 <p class="mt-4">{!! nl2br(e($note->content)) !!}</p>
+                <span class="inline-block mt-4 opacity-60 text-sm">Notebook: {{ $note->notebook->name }}</span>
+                <br>
                 <span class="inline-block mt-4 opacity-60 text-sm">Created: {{ $note->created_at->diffForHumans() }}</span>
                 <br>
                 <span class="inline-block mt-4 opacity-60 text-sm">Updated: {{ $note->updated_at->diffForHumans() }}</span>

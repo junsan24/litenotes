@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\Notebook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -22,7 +23,8 @@ class NotesController extends Controller
      */
     public function create()
     {
-        return view('notes.create');
+        $notebooks = Notebook::orderBy('name', 'ASC')->get();
+        return view('notes.create', compact('notebooks'));
     }
 
     /**
@@ -34,6 +36,7 @@ class NotesController extends Controller
         $request->validate([
             'title' => 'required|max:150',
             'content' => 'required',
+            'notebook' => 'required'
         ]);
 
         $note = new Note([
@@ -41,7 +44,8 @@ class NotesController extends Controller
             'title' => $request->get('title'),
             'content' => $request->get('content'),
             'user_id' => auth()->id(),
-            'status' => $request->get('status')
+            'status' => $request->get('status'),
+            'notebook_id' => $request->get('notebook')
         ]);
 
         $note->save();
@@ -70,7 +74,9 @@ class NotesController extends Controller
             abort(403);
         }
 
-        return view('notes.edit', compact('note'));
+        $notebooks = Notebook::orderBy('name', 'ASC')->get();
+
+        return view('notes.edit', compact('note', 'notebooks'));
     }
 
     /**
@@ -90,7 +96,8 @@ class NotesController extends Controller
         $note->update([
             'title' => $request->title,
             'content' => $request->content,
-            'status' => $request->status
+            'status' => $request->status,
+            'notebook_id' => $request->notebook
         ]);
 
         return redirect()->route('notes.show', compact('note'))->with('success', 'Note updated!');
