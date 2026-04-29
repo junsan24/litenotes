@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Notes') }}
+            {{ __('Edit Notes') }}
         </h2>
     </x-slot>
 
@@ -9,13 +9,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <x-link-primary href="{{ route('notes.index') }}">Back</x-link-primary>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-4">
-                    <form method="POST" action="{{ route('notes.store') }}">
+                    <form method="POST" action="{{ route('notes.update', $note) }}">
+                        @method('PUT')
                         @csrf
-                        <x-text-input name="title" placeholder="Title" class="w-full" value="{{ @old('title') }}"></x-text-input>
+                        <x-text-input name="title" placeholder="Title" class="w-full" value="{{ @old('title', $note->title) }}"></x-text-input>
                         @error('title')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                        <x-textarea-input name="content" class="w-full mt-4" rows="4" placeholder="Content">{{ @old('content') }}</x-textarea-input>
+                        <x-textarea-input name="content" class="w-full mt-4" rows="4" placeholder="Content">{{ @old('content', $note->content) }}</x-textarea-input>
                         @error('content')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror

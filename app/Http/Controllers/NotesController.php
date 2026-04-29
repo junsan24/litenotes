@@ -40,7 +40,7 @@ class NotesController extends Controller
             'uuid' => Str::uuid(),
             'title' => $request->get('title'),
             'content' => $request->get('content'),
-            'user_id' => auth()->id(),
+            'user_id' => auth()->id,
             'status' => $request->get('status')
         ]);
 
@@ -53,7 +53,7 @@ class NotesController extends Controller
      * Display the specified resource.
      */
     public function show(Note $note)
-    {   
+    {
         if($note->user_id != auth()->id()) {
             abort(403);
         }
@@ -64,17 +64,36 @@ class NotesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Note $note)
     {
-        //
+        if($note->user_id != auth()->id()) {
+            abort(403);
+        }
+
+        return view('notes.edit', compact('note'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Note $note)
     {
-        //
+        if($note->user_id != auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'title' => 'required|max:150',
+            'content' => 'required',
+        ]);
+
+        $note->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('notes.show', compact('note'))->with('success', 'Note updated!');
     }
 
     /**
