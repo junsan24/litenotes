@@ -40,7 +40,7 @@ class NotesController extends Controller
             'uuid' => Str::uuid(),
             'title' => $request->get('title'),
             'content' => $request->get('content'),
-            'user_id' => auth()->id,
+            'user_id' => auth()->id(),
             'status' => $request->get('status')
         ]);
 
@@ -99,8 +99,14 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Note $note)
     {
-        //
+        if($note->user_id != auth()->id()) {
+            abort(403);
+        }
+
+        $note->delete();
+
+        return to_route('notes.index', $note)->with('success', 'Note deleted!');
     }
 }
