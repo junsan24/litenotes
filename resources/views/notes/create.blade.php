@@ -11,11 +11,11 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-4">
                     <form method="POST" action="{{ route('notes.store') }}">
                         @csrf
-                        <x-text-input name="title" placeholder="Title" class="w-full"></x-text-input>
+                        <x-text-input name="title" placeholder="Title" class="w-full" value="{{ @old('title') }}"></x-text-input>
                         @error('title')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror 
-                        <x-textarea-input name="content" class="w-full mt-4" rows="4" placeholder="Content"></x-textarea-input>
+                        <x-textarea-input name="content" class="w-full mt-4" rows="4" placeholder="Content">{{ @old('content') }}</x-textarea-input>
                         @error('content')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror 

@@ -15,7 +15,7 @@
                 <x-link-primary href="{{ route('notes.create') }}">Add Note</x-link-primary>
                 @forelse ($notes as $note)
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-4">
-                        <h1 class="font-bold text-lg">{{ $note->title }}</h1>
+                        <a href="{{ route('notes.show', $note) }}"><h1 class="font-bold text-lg">{{ $note->title }}</h1></a>
                         <p class="mt-4">{{ Str::limit($note->content, 200, '...'); }}</p>
                         <span class="inline-block mt-4 opacity-60">{{ $note->updated_at->diffForHumans() }}</span>
                     </div>

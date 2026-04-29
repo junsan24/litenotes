@@ -49,9 +49,10 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Note $note)
     {
-        //
+        
+        return view('notes.show', [ 'note' => $note ]);
     }
 
     /**
