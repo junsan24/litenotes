@@ -12,7 +12,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        $notes = Note::all();
+        $notes = Note::where('user_id', auth()->id())->where('status', 1)->latest('updated_at')->get();
         return view('notes.index')->with('notes', $notes);
     }
 
@@ -29,7 +29,21 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:150',
+            'content' => 'required',
+        ]);
+
+        $note = new Note([
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'user_id' => auth()->id(),
+            'status' => 1
+        ]);
+
+        $note->save();
+
+        return redirect()->route('notes.index')->with('success', 'Note saved!');
     }
 
     /**
