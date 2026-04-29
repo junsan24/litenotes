@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Notebook;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('notes', function (Blueprint $table) {
-            $table->foreignIdFor(Notebook::class)->nullable();
+        Schema::table('notebooks', function (Blueprint $table) {
+            $table->text('description')->nullable()->after('name');
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('notes', function (Blueprint $table) {
-            $table->dropForeignIdFor(Notebook::class);
+        Schema::table('notebooks', function (Blueprint $table) {
+            $table->dropColumn('description');
         });
     }
 };
