@@ -52,7 +52,10 @@ class NotesController extends Controller
      * Display the specified resource.
      */
     public function show(Note $note)
-    {
+    {   
+        if($note->user_id != auth()->id()) {
+            abort(403);
+        }
         
         return view('notes.show', [ 'note' => $note ]);
     }
