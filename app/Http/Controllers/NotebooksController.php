@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Note;
+use App\Models\Notebook;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class NotesController extends Controller
+class NotebooksController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $notes = Note::where('user_id', auth()->id())->where('status', 1)->latest('updated_at')->get();
-        return view('notes.index')->with('notes', $notes);
+        $notebooks = Notebook::where('user_id', auth()->id())->where('status', 1)->latest('updated_at')->get();
+        return view('notebooks.index', compact('notebooks'));
     }
 
     /**
@@ -22,7 +21,7 @@ class NotesController extends Controller
      */
     public function create()
     {
-        return view('notes.create');
+        return view('notebooks.create');
     }
 
     /**
@@ -30,35 +29,26 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
-            'title' => 'required|max:150',
-            'content' => 'required',
+            'name' => 'required|max:100'
         ]);
 
-        $note = new Note([
-            'uuid' => Str::uuid(),
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
-            'user_id' => auth()->id(),
-            'status' => $request->get('status')
-        ]);
+        $notebook = new Notebook();
+        $notebook->name = $request->name;
+        $notebook->status = $request->status;
+        $notebook->user_id = auth()->id();
 
-        $note->save();
+        $notebook->save();
 
-        return redirect()->route('notes.index')->with('success', 'Note saved!');
+        return redirect()->route('notebooks.index')->with('success', 'Notebook created.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Note $note)
-    {   
-        if($note->user_id != auth()->id()) {
-            abort(403);
-        }
-
-        return view('notes.show', [ 'note' => $note ]);
+    public function show(string $id)
+    {
+        //
     }
 
     /**

@@ -12,16 +12,14 @@
                         <span class="block sm:inline">{{ session('success') }}</span>
                     </div>
                 @endif
-                <x-link-primary href="{{ route('notes.create') }}">Add Note</x-link-primary>
-                @forelse ($notes as $note)
+                <x-link-primary href="{{ route('notebooks.create') }}">Add Notebook</x-link-primary>
+                @forelse ($notebooks as $notebook)
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-4">
-                        <a href="{{ route('notes.show', $note) }}"><h1 class="font-bold text-lg">{{ $note->title }}</h1></a>
-                        <p class="mt-4">{{ Str::limit($note->content, 200, '...'); }}</p>
-                        <span class="inline-block mt-4 opacity-60">{{ $note->updated_at->diffForHumans() }}</span>
+                        <a href="{{ route('notebooks.show', $notebook) }}"><h1 class="font-bold text-lg">{{ $notebook->name }}</h1></a>
                     </div>
                 @empty
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                        <h1 class="p-6">No notes.</h1>
+                        <h1 class="p-6">No Notebooks.</h1>
                     </div>
                 @endforelse
         </div>

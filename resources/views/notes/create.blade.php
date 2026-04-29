@@ -19,7 +19,7 @@
                         @error('content')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror 
-                        <x-select-input name="status" class="mt-5"></x-select-input>
+                        <x-select-input class="mt-5"></x-select-input>
                         <x-primary-button class="mt-4">Save</x-primary-button>
                     </form>
                 </div>
