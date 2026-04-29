@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notebook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotebooksController extends Controller
 {
@@ -12,7 +13,7 @@ class NotebooksController extends Controller
      */
     public function index()
     {
-        $notebooks = Notebook::where('user_id', auth()->id())->where('status', 1)->latest('updated_at')->get();
+        $notebooks = Notebook::where('user_id', Auth::id())->where('status', 1)->latest('updated_at')->get();
         return view('notebooks.index', compact('notebooks'));
     }
 
@@ -36,7 +37,7 @@ class NotebooksController extends Controller
         $notebook = new Notebook();
         $notebook->name = $request->name;
         $notebook->status = $request->status;
-        $notebook->user_id = auth()->id();
+        $notebook->user_id = Auth::id();
 
         $notebook->save();
 
