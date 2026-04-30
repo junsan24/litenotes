@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Notebook;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Note extends Model
 {
+    use SoftDeletes;
+
     public $guarded = [];
 
     public function getRouteKeyName()
