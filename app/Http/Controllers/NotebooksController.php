@@ -14,7 +14,7 @@ class NotebooksController extends Controller
      */
     public function index()
     {
-        $notebooks = Notebook::where('user_id', Auth::id())->where('status', 1)->latest('updated_at')->get();
+        $notebooks = Notebook::whereBelongsTo(Auth::user())->where('status', 1)->latest('updated_at')->paginate(5);
         return view('notebooks.index', compact('notebooks'));
     }
 
@@ -37,6 +37,7 @@ class NotebooksController extends Controller
 
         $notebook = new Notebook();
         $notebook->name = $request->name;
+        $notebook->description = $request->description;
         $notebook->status = $request->status;
         $notebook->user_id = Auth::id();
 
@@ -50,7 +51,7 @@ class NotebooksController extends Controller
      */
     public function show(Notebook $notebook)
     {
-        if($notebook->user_id != Auth::id()) {
+        if(!$notebook->user()->is(Auth::user())) {
             abort(403);
         }
 
@@ -62,7 +63,7 @@ class NotebooksController extends Controller
      */
     public function edit(Notebook $notebook)
     {
-        if($notebook->user_id != Auth::id()) {
+        if(!$notebook->user()->is(Auth::user())) {
             abort(403);
         }
 
@@ -94,7 +95,7 @@ class NotebooksController extends Controller
      */
     public function destroy(Notebook $notebook)
     {
-        if($notebook->user_id != Auth::id()) {
+        if(!$notebook->user()->is(Auth::user())) {
             abort(403);
         }
 

@@ -14,7 +14,11 @@
                         <x-text-input class="md-5" name="name" placeholder="Name" class="w-full" value="{{ @old('name') }}"></x-text-input>
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror 
+                        @enderror
+                        <x-textarea-input rows="4" class="mt-5" name="description" placeholder="Description" class="w-full" value="{{ @old('description') }}"></x-textarea-input>
+                        @error('description')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                         <x-select-input></x-select-input>
                         <x-primary-button class="mt-4">Save</x-primary-button>
                     </form>
